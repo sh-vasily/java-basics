@@ -1,17 +1,27 @@
 package ru.msu.vmk;
+import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        System.out.println("Пожалуйста, введите размер массива.");
+        var scanner = new Scanner(System.in);
+        var arraySize = scanner.nextInt();
+        var array = new int[arraySize];
 
-        for (int i = 1; i <= 15; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        for (int i = 0; i < arraySize; ++i){
+            System.out.printf("Пожалуйста, введите элемент массива номер %d.\n", i);
+            array[i] = scanner.nextInt();
         }
+
+        var sum = sum(array);
+        System.out.printf("Сумма массива равна %d.\n", sum);
+    }
+
+    private static int sum(int[] array){
+        var sum = 0;
+        for (int i = 0; i < array.length; ++i){
+            sum += array[i];
+        }
+        return sum;
     }
 }

@@ -1,17 +1,46 @@
 package ru.msu.vmk;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import ru.msu.vmk.figures.*;
+import ru.msu.vmk.figures.Runnable;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        var cat = new Cat("cat 1");
+        var cat2 = new Cat("cat 2");
+        var cat3 = new Cat();
+        var dog = new Dog("dog 1", "corgy");
+        var dog2 = new Dog("dog 2", "haski");
+        var dog3 = new Dog();
+        var robot= new Robot();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        var animals = new Animal[]{ cat, cat2, cat3, dog, dog2, dog3 };
+        var runnables = new Runnable[]{ cat, cat2, cat3, dog, dog2, dog3, robot };
+        var cats = new Animal[]{ cat, cat2, cat3 };
+        printAnimals(animals);
+        //run(runnables);
+    }
+
+    public static void run(Runnable[] runnables){
+        for (var runnable : runnables){
+            runnable.run();
+        }
+    }
+
+    public static void printAnimals(Animal[] animals){
+        for (var animal : animals){
+            System.out.println(animal);
+        }
+    }
+
+    public static void printAnimals(Cat[] animals){
+        for (var animal : animals){
+            System.out.println(animal);
+        }
+    }
+
+    public static void printAnimals(Dog[] animals){
+        for (var animal : animals){
+            System.out.println(animal);
         }
     }
 }

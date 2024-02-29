@@ -28,4 +28,4 @@ jobs:
           distribution: 'adopt'
 
       - name: Test
-        run: mvn test
+        run: mvn package

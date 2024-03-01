@@ -67,13 +67,11 @@ public class Quantity {
 
     /***
      * Method divide amount by n equals parts
-     * @param quantity - finance object
      * @param n - part segment
      * @return - array BigDecimal[]
      */
-    public BigDecimal[] divide(Quantity quantity, int n) {
-        validateCurrenciesAreEqual(quantity);
-        return NumberSample.split(quantity.amount, n);
+    public BigDecimal[] divide(int n) {
+        return NumberSample.split(this.amount, n);
     }
 
     @Override

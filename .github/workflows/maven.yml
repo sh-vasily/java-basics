@@ -18,4 +18,4 @@ jobs:
         with:
           java-version: 21
       - name: Maven test
-        run: mvn -B test --file basics/pom.xml
+        run: mvn -B test --file basics/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn

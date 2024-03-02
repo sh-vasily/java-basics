@@ -17,5 +17,5 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 21
-      - name: Maven test
+      - name: basics task test
         run: mvn -B test --file basics/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn

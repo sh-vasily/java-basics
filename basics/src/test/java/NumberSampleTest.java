@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class NumberSampleTests {
+public class NumberSampleTest {
     @ParameterizedTest
     @MethodSource("provideParameters")
     public void splitTest(BigDecimal amount, int n, BigDecimal[] expected){

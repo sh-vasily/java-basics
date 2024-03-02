@@ -30,9 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <testSourceDirectory>${basedir}/src/test/java/</testSourceDirectory>
-                </configuration>
+                <version>3.2.5</version>
             </plugin>
         </plugins>
     </build>

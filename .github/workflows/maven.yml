@@ -18,4 +18,4 @@ jobs:
         with:
           java-version: 21
       - name: Maven test
-        run: mvn test -pl basics
+        run: mvn -B test --file basics/pom.xml

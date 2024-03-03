@@ -19,3 +19,6 @@ jobs:
           java-version: 21
       - name: basics task test
         run: mvn -B test --file basics/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      - name: object-oriented-programming task test
+        run: mvn -B test --file object-oriented-programming/pom.xml -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+

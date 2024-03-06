@@ -6,6 +6,11 @@ public class NumberSample {
     public static BigDecimal[] split(BigDecimal amount, int n) {
         // разделить amount на n частей
         // если остается остаток, прибавить его к первому числу
-        return null;
+        BigDecimal[] val = new BigDecimal[n];
+
+        for (int i = 0; i < n; ++i){
+            val[i] = amount.divide(BigDecimal.valueOf(n));
+        }
+        return val;
     }
 }

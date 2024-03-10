@@ -1,6 +1,9 @@
 package ru.msu.vmk;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
+//import ru.msu.vmk.NumberSample;
 
 /**
  * По примеру класса {@link Money} реализовать класс Quantity:
@@ -17,7 +20,18 @@ public class Quantity {
      * @param amount - сумма
      * @param unitOfMeasurement - единица измерения
      */
+    private BigDecimal amount;
+    private String unitOfMeasurement;
+
     public Quantity(BigDecimal amount, String unitOfMeasurement) {
+        if (amount == null) {
+            throw new IllegalArgumentException("amount cannot be null");
+        }
+        if (unitOfMeasurement == null || unitOfMeasurement.isBlank()) {
+            throw new IllegalArgumentException("currency cannot be empty");
+        }
+        this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     /**
@@ -25,8 +39,12 @@ public class Quantity {
      * @return {@link Quantity#amount}
      */
     public BigDecimal getAmount() {
-        return null;
+        return this.amount;
     }
+
+//    public String getUnitOfMeasurement() { return this.unitOfMeasurement;}
+
+//    public  Quantity(String amount, String unitOfMeasurement) { this(new BigDecimal(amount), unitOfMeasurement);}
 
     /**
      * Сложение двух чисел в одной единице измерения
@@ -35,7 +53,9 @@ public class Quantity {
      * @return сумма чисел
      */
     public Quantity add(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal sum = this.amount.add(quantity.amount);
+        return new Quantity(sum, this.unitOfMeasurement);
     }
 
     /**
@@ -45,7 +65,9 @@ public class Quantity {
      * @return разность чисел
      */
     public Quantity subtract(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal diff = this.amount.subtract(quantity.amount);
+        return new Quantity(diff, this.unitOfMeasurement);
     }
 
     /**
@@ -55,7 +77,9 @@ public class Quantity {
      * @return произведение
      */
     public Quantity multiply(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal result = this.amount.multiply(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -65,7 +89,9 @@ public class Quantity {
      * @return частное
      */
     public Quantity divide(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal result = this.amount.divide(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -75,6 +101,51 @@ public class Quantity {
      * @return равные части числа
      */
     public Quantity[] divide(int n) throws Exception {
-        return null;
+        validateNParamNotNull(n);
+        BigDecimal[] splitted = NumberSample.split(this.amount, n);
+        Quantity[] q = new Quantity[n];
+        for (int i = 0; i < n; ++i) {
+            q[i] = new Quantity(splitted[i], this.unitOfMeasurement);
+        }
+        return q;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public void setUnitOfMeasurement(String unitOfMeasurement) {
+        this.unitOfMeasurement = unitOfMeasurement;
+    }
+
+    @Override
+    public String toString() {
+        return amount + " " + unitOfMeasurement;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quantity quantity = (Quantity) o;
+
+        return amount.equals(quantity.amount) && unitOfMeasurement.equals(quantity.unitOfMeasurement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, unitOfMeasurement);
+    }
+
+    private void validateUnitOfMeasurement(Quantity q2) {
+        if (!this.unitOfMeasurement.equals(q2.unitOfMeasurement)) {
+            throw  new IllegalArgumentException("Еденицы измерения не совпадают: " + this.unitOfMeasurement + " " + q2.unitOfMeasurement);
+        }
+    }
+
+    private void validateNParamNotNull(int n) {
+        if (n == 0) {
+            throw new IllegalArgumentException(("Количество частей для деления не может быть 0"));
+        }
     }
 }

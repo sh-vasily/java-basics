@@ -22,7 +22,8 @@ public class NumberSampleTests {
                 Arguments.of(new BigDecimal("1.0"), 2, new BigDecimal[]{new BigDecimal("0.5"), new BigDecimal("0.5")}),
                 Arguments.of(new BigDecimal("2.0"), 2, new BigDecimal[]{new BigDecimal("1.0"), new BigDecimal("1.0")}),
                 Arguments.of(new BigDecimal("5.0"), 2, new BigDecimal[]{new BigDecimal("2.5"), new BigDecimal("2.5")}),
-                Arguments.of(new BigDecimal("10.0"), 2, new BigDecimal[]{new BigDecimal("5.0"), new BigDecimal("5.0")})
+                Arguments.of(new BigDecimal("10.0"), 2, new BigDecimal[]{new BigDecimal("5.0"), new BigDecimal("5.0")}),
+                Arguments.of(new BigDecimal("20.0"), 3, new BigDecimal[]{new BigDecimal("8.0"), new BigDecimal("6.0"), new BigDecimal("6.0")})
         );
     }
 }

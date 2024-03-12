@@ -1,17 +1,62 @@
 package ru.msu.vmk;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        var set = new HashSet<String>();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        set.add("test");
+        set.add("test1");
+
+        for (var element: set){
+         //   System.out.println(element);
+        }
+
+        var map = new HashMap<Integer, String>();
+
+        map.putIfAbsent(1, "test1");
+        map.putIfAbsent(1, "test3");
+        map.putIfAbsent(2, "test2");
+
+
+        for (var key: map.keySet()){
+            System.out.println("key=" + key + " value=" + map.get(key));
+        }
+
+        var array = new ArrayList<String>();
+
+        array.add("first");
+        array.add("second");
+        array.add("third");
+
+        array.add(1, "modified");
+        System.out.println(array.set(1, "modified1"));
+
+        for (var element: array){
+            System.out.println("index = " + array.indexOf(element) + " element =" + element);
+        }
+
+        var deque = new ArrayDeque<String>();
+
+        deque.offer("first");
+        deque.offer("second");
+        deque.offer("third");
+
+        while (!deque.isEmpty()){
+            var element = deque.removeLast();
+            System.out.println(element);
+        }
+
+        var stack = new Stack<String>();
+
+        stack.push("first");
+        stack.push("second");
+        stack.push("third");
+
+        while (!stack.isEmpty()){
+            var element = stack.pop();
+            System.out.println(element);
         }
     }
 }

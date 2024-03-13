@@ -8,9 +8,10 @@ public class LibraryImplTest {
     public void addBookTest(){
         var library = new LibraryImpl();
         library.addNewBook(new Book("book"));
+        library.addNewBook(new Book("book2"));
         var availableBooks = library.findAvailableBooks();
 
-        Assertions.assertEquals(1, availableBooks.size());
+        Assertions.assertEquals(2, availableBooks.size());
         Assertions.assertEquals("book", availableBooks.get(0).getTitle());
     }
 
@@ -20,20 +21,21 @@ public class LibraryImplTest {
         var book = new Book("book");
 
         library.addNewBook(book);
+        library.addNewBook(new Book("book2"));
 
         var availableBooks = library.findAvailableBooks();
-        Assertions.assertEquals(1, availableBooks.size());
+        Assertions.assertEquals(2, availableBooks.size());
         Assertions.assertEquals("book", availableBooks.get(0).getTitle());
 
         library.borrowBook(book, "student");
 
         availableBooks = library.findAvailableBooks();
-        Assertions.assertEquals(0, availableBooks.size());
+        Assertions.assertEquals(1, availableBooks.size());
 
         library.returnBook(book, "student");
 
         availableBooks = library.findAvailableBooks();
-        Assertions.assertEquals(1, availableBooks.size());
-        Assertions.assertEquals("book", availableBooks.get(0).getTitle());
+        Assertions.assertEquals(2, availableBooks.size());
+        Assertions.assertEquals("book", availableBooks.get(1).getTitle());
     }
 }

@@ -44,13 +44,11 @@ public class LibraryImpl implements Library{
         if(!books.containsKey(book.getTitle())) {
             if(studentBook.containsKey(student)){
                 List<Book> list = studentBook.get(student);
-                for(Book bookFromStudent : list){
-                    if(Objects.equals(book.getTitle(), bookFromStudent.getTitle())) {
-                        books.put(bookFromStudent.getTitle(), bookFromStudent);
-                        break;
-                    }
+                Book bookFromStudent = list.stream().filter(b -> b.getTitle().equals(book.getTitle())).findFirst().orElse(null);
+                if(bookFromStudent != null) {
+                    books.put(bookFromStudent.getTitle(), bookFromStudent);
+                    list.remove(book);
                 }
-                list.remove(book);
                 studentBook.put(student, list);
             } else {
                 logger.info("Студент не найден!");

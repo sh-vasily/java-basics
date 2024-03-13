@@ -98,14 +98,7 @@ public class Quantity {
      * @return равные части числа
      */
     public Quantity[] divide(int n) throws Exception {
-        Quantity[] out = new Quantity[n];
-        AtomicInteger idx = new AtomicInteger();
-        Arrays.stream(NumberSample.split(this.amount, n)).forEach(bigDecimal -> {
-            Quantity quantity = new Quantity(bigDecimal, this.unitOfMeasurement);
-            out[idx.get()] = quantity;
-            idx.getAndIncrement();
-        });
-        return out;
+        return Arrays.stream(NumberSample.split(this.amount, n)).map(bigDecimal -> new Quantity(bigDecimal, this.unitOfMeasurement)).toArray(Quantity[]::new);
     }
 
     private void validateCurrenciesAreEqual(Quantity quantity) {

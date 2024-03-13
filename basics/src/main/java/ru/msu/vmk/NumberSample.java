@@ -10,17 +10,15 @@ public class NumberSample {
         int previousSize = n;
         for (int i = 0; n > 0; i++, n--) {
             double size = temp / n;
-            if(previousSize > 2) {
-                if (i == 0) {
-                    double ost = temp % n;
-                    array[i] = BigDecimal.valueOf((int) size).add(BigDecimal.valueOf(ost));
-                }else {
-                    array[i] = BigDecimal.valueOf((int)size);
-                }
+            if (previousSize > 2) {
+                array[i] = BigDecimal.valueOf((int) size);
             } else {
-                    array[i] = BigDecimal.valueOf(size);
+                array[i] = BigDecimal.valueOf(size);
             }
             temp -= size;
+        }
+        if (previousSize > 2) {
+            array[0] = BigDecimal.valueOf((int) (amount.doubleValue() / previousSize)).add(BigDecimal.valueOf(amount.doubleValue() % previousSize));
         }
         return array;
     }

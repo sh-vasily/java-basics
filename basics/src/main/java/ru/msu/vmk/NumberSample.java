@@ -14,11 +14,19 @@ public class NumberSample {
         //var a = amount.divide(BigDecimal.valueOf(n), k,6);
         var a = amount.divide(BigDecimal.valueOf(n));
 
-        for(int i = 1; i < n; ++i){
+        for(int i = 1; i < n; ++i) {
             array[i] = a;
             sum = sum.add(array[i]);
         }
         array[0] = amount.subtract(sum);
+
+       /* var a1 = amount.divide(BigDecimal.valueOf(n));
+        var a0 = a1.add(amount.remainder(BigDecimal.valueOf(n)));
+        array[0] = a0;
+
+        for(int i = 1; i < n; ++i){
+            array[i] = a1;
+        }*/
 
         return array;
     }

@@ -1,6 +1,9 @@
 package ru.msu.vmk;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * По примеру класса {@link Money} реализовать класс Quantity:
@@ -13,11 +16,23 @@ import java.math.BigDecimal;
  * <br/> - для проверки работы реализовать функцию main() или Unit-test
  */
 public class Quantity {
+
+    private final BigDecimal amount;
+    private final String unitOfMeasurement;
+
     /**
      * @param amount - сумма
      * @param unitOfMeasurement - единица измерения
      */
     public Quantity(BigDecimal amount, String unitOfMeasurement) {
+        if (amount == null) {
+            throw new IllegalArgumentException("amount cannot be null");
+        }
+        if (unitOfMeasurement == null || unitOfMeasurement.isBlank()) {
+            throw new IllegalArgumentException("currency cannot be empty");
+        }
+        this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     /**
@@ -25,7 +40,7 @@ public class Quantity {
      * @return {@link Quantity#amount}
      */
     public BigDecimal getAmount() {
-        return null;
+        return amount;
     }
 
     /**
@@ -35,7 +50,9 @@ public class Quantity {
      * @return сумма чисел
      */
     public Quantity add(Quantity quantity) throws Exception {
-        return null;
+        validateCurrenciesAreEqual(quantity);
+        BigDecimal sum = this.amount.add(quantity.amount);
+        return new Quantity(sum, this.unitOfMeasurement);
     }
 
     /**
@@ -45,7 +62,9 @@ public class Quantity {
      * @return разность чисел
      */
     public Quantity subtract(Quantity quantity) throws Exception {
-        return null;
+        validateCurrenciesAreEqual(quantity);
+        BigDecimal result = this.amount.subtract(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -55,7 +74,9 @@ public class Quantity {
      * @return произведение
      */
     public Quantity multiply(Quantity quantity) throws Exception {
-        return null;
+        validateCurrenciesAreEqual(quantity);
+        BigDecimal result = this.amount.multiply(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -65,7 +86,9 @@ public class Quantity {
      * @return частное
      */
     public Quantity divide(Quantity quantity) throws Exception {
-        return null;
+        validateCurrenciesAreEqual(quantity);
+        BigDecimal result = this.amount.divide(quantity.amount, RoundingMode.HALF_EVEN);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -75,6 +98,12 @@ public class Quantity {
      * @return равные части числа
      */
     public Quantity[] divide(int n) throws Exception {
-        return null;
+        return Arrays.stream(NumberSample.split(this.amount, n)).map(bigDecimal -> new Quantity(bigDecimal, this.unitOfMeasurement)).toArray(Quantity[]::new);
+    }
+
+    private void validateCurrenciesAreEqual(Quantity quantity) {
+        if (!this.unitOfMeasurement.equals(quantity.unitOfMeasurement)) {
+            throw new IllegalArgumentException("Валюты не совпадают: " + this.unitOfMeasurement + " " + quantity.unitOfMeasurement);
+        }
     }
 }

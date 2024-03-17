@@ -17,7 +17,7 @@ public class Main {
         var runnables = new Runnable[]{ cat, cat2, cat3, dog, dog2, dog3, robot };
         var cats = new Animal[]{ cat, cat2, cat3 };
         printAnimals(animals);
-        //run(runnables);
+//        run(runnables);
     }
 
     public static void run(Runnable[] runnables){

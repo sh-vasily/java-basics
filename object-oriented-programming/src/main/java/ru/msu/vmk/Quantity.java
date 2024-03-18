@@ -111,19 +111,24 @@ public class Quantity {
         if (n <= 0) {
             throw new IllegalArgumentException("The divider must be a positive number.");
         }
-        BigDecimal part = this.amount.divide(BigDecimal.valueOf(n), 2, RoundingMode.DOWN);
-        BigDecimal remainder = this.amount.remainder(BigDecimal.valueOf(n));
-        Quantity[] result = new Quantity[n];
+        var array = new Quantity[n];
+        BigDecimal a = this.amount.divide(BigDecimal.valueOf(n), 2, RoundingMode.HALF_UP);
+        BigDecimal difference = this.amount.subtract(a.multiply(BigDecimal.valueOf(n)));
 
-        for (int i = 0; i < n; i++) {
-            if (i == 0) {
-                result[i] = new Quantity(part.add(remainder), this.unitOfMeasurement);
-            } else {
-                result[i] = new Quantity(part, this.unitOfMeasurement);
+        if (difference.compareTo(BigDecimal.ZERO) > 0) {
+            BigDecimal a0 = this.amount.remainder(BigDecimal.valueOf(n));
+            BigDecimal a1 = this.amount.subtract(a0);
+            BigDecimal a2 = a1.divide(BigDecimal.valueOf(n));
+            array[0] = new Quantity(a2.add(a0), this.unitOfMeasurement);
+            for (int i = 1; i < n; i++) {
+                array[i] = new Quantity(a2, this.unitOfMeasurement);
+            }
+        } else {
+            for (int i = 0; i < n; i++) {
+                array[i] = new Quantity(a, this.unitOfMeasurement);
             }
         }
-            return result;
-
+        return array;
     }
 
     private void checkUnitCompatibility(Quantity q2) {

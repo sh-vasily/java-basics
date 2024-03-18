@@ -129,7 +129,7 @@ public class Quantity {
             }
         }
         return array;
-    }
+}
 
     private void checkUnitCompatibility(Quantity q2) {
         if (!this.unitOfMeasurement.equals(q2.unitOfMeasurement)) {

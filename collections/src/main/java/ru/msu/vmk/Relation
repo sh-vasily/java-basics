@@ -2,16 +2,29 @@ package ru.msu.vmk;
 
 import java.util.Objects;
 
-public class Student {
+public class Relation {
 
+    private int relationId;
+    private int bookId;
     private int studentId;
-    private String studentName;
 
-    public Student() {
+    public Relation() {
     }
 
-    public Student(String studentName){
-        this.studentName = studentName;
+    public int getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(int relationId) {
+        this.relationId = relationId;
+    }
+
+    public int getBookId(){
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
     public int getStudentId() {
@@ -22,24 +35,16 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getStudentName(){
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Student book = (Student) o;
-        return studentId == book.studentId && Objects.equals(studentName, book.studentName);
+        Relation relation = (Relation) o;
+        return relationId == relation.relationId && bookId == relation.bookId && studentId == relation.studentId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, studentName);
+        return Objects.hash(relationId, bookId, studentId);
     }
 }

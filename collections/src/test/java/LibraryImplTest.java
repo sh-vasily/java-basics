@@ -1,12 +1,29 @@
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.msu.vmk.Book;
+import ru.msu.vmk.Library;
 import ru.msu.vmk.LibraryImpl;
-import org.junit.jupiter.api.Assertions;
+
+import java.sql.SQLException;
 
 public class LibraryImplTest {
+
+    private static boolean setUpIsDone = false;
+    private Library library;
+
+    @BeforeEach
+    public void init() throws SQLException {
+        library = new LibraryImpl("jdbc:derby:memory:testdb;create=true", "test", "test");
+        if (setUpIsDone) {
+            return;
+        }
+        library.init();
+        setUpIsDone = true;
+    }
+
     @Test
-    public void addBookTest(){
-        var library = new LibraryImpl();
+    public void addBookTest() throws SQLException {
         library.addNewBook(new Book("book"));
         var availableBooks = library.findAvailableBooks();
 
@@ -15,11 +32,11 @@ public class LibraryImplTest {
     }
 
     @Test
-    public void borrowAndReturnBookTest(){
-        var library = new LibraryImpl();
+    public void borrowAndReturnBookTest() throws SQLException {
         var book = new Book("book");
 
         library.addNewBook(book);
+        book = library.getBookByTitle(book.getTitle());
 
         var availableBooks = library.findAvailableBooks();
         Assertions.assertEquals(1, availableBooks.size());

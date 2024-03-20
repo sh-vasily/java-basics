@@ -13,11 +13,24 @@ import java.math.BigDecimal;
  * <br/> - для проверки работы реализовать функцию main() или Unit-test
  */
 public class Quantity {
+
+    private final BigDecimal amount;
+    private final String unitOfMeasurement;
+
+
     /**
      * @param amount - сумма
      * @param unitOfMeasurement - единица измерения
      */
     public Quantity(BigDecimal amount, String unitOfMeasurement) {
+        if (amount == null) {
+            throw new IllegalArgumentException("amount cannot be null");
+        }
+        if (unitOfMeasurement == null || unitOfMeasurement.isBlank()) {
+            throw new IllegalArgumentException("currency cannot be empty");
+        }
+        this.amount = amount;
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     /**
@@ -25,7 +38,7 @@ public class Quantity {
      * @return {@link Quantity#amount}
      */
     public BigDecimal getAmount() {
-        return null;
+        return this.amount;
     }
 
     /**
@@ -34,8 +47,9 @@ public class Quantity {
      * @param quantity прибавляемое значение
      * @return сумма чисел
      */
-    public Quantity add(Quantity quantity) throws Exception {
-        return null;
+    public Quantity add(Quantity quantity) throws IllegalArgumentException {
+        validateMeasuresAreEqual(quantity);
+        return new Quantity(this.amount.add(quantity.amount), this.unitOfMeasurement);
     }
 
     /**
@@ -44,8 +58,9 @@ public class Quantity {
      * @param quantity вычитаемое значение
      * @return разность чисел
      */
-    public Quantity subtract(Quantity quantity) throws Exception {
-        return null;
+    public Quantity subtract(Quantity quantity) throws IllegalArgumentException {
+        validateMeasuresAreEqual(quantity);
+        return new Quantity(this.amount.subtract(quantity.amount), this.unitOfMeasurement);
     }
 
     /**
@@ -55,7 +70,8 @@ public class Quantity {
      * @return произведение
      */
     public Quantity multiply(Quantity quantity) throws Exception {
-        return null;
+        validateMeasuresAreEqual(quantity);
+        return new Quantity(this.amount.multiply(quantity.amount), this.unitOfMeasurement);
     }
 
     /**
@@ -65,7 +81,8 @@ public class Quantity {
      * @return частное
      */
     public Quantity divide(Quantity quantity) throws Exception {
-        return null;
+        validateMeasuresAreEqual(quantity);
+        return new Quantity(this.amount.divide(quantity.amount), this.unitOfMeasurement);
     }
 
     /**
@@ -74,7 +91,13 @@ public class Quantity {
      * @param n делитель
      * @return равные части числа
      */
-    public Quantity[] divide(int n) throws Exception {
-        return null;
+    public Quantity[] divide(int n) {
+        return new Quantity(this.amount.multiply(quantity.amount), this.unitOfMeasurement);
+    }
+
+    private void validateMeasuresAreEqual(Quantity quantity) {
+        if (!this.unitOfMeasurement.equals(quantity.unitOfMeasurement)) {
+            throw new IllegalArgumentException("Единицы измерения не совпадают: " + this.unitOfMeasurement + " " + quantity.unitOfMeasurement);
+        }
     }
 }

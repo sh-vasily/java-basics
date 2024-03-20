@@ -1,6 +1,8 @@
 package ru.msu.vmk;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * По примеру класса {@link Money} реализовать класс Quantity:
@@ -13,11 +15,23 @@ import java.math.BigDecimal;
  * <br/> - для проверки работы реализовать функцию main() или Unit-test
  */
 public class Quantity {
+
+    private BigDecimal amount;
+    private String unitOfMeasurement;
+
     /**
      * @param amount - сумма
      * @param unitOfMeasurement - единица измерения
      */
     public Quantity(BigDecimal amount, String unitOfMeasurement) {
+        if (amount == null) {
+            throw new IllegalArgumentException("amount cannot be null");
+        }
+        if (unitOfMeasurement == null || unitOfMeasurement.isBlank()) {
+            throw new IllegalArgumentException("units cannot be empty");
+        }
+        this.amount = amount.setScale(2, RoundingMode.HALF_EVEN);
+        this.unitOfMeasurement = unitOfMeasurement;
     }
 
     /**
@@ -25,7 +39,11 @@ public class Quantity {
      * @return {@link Quantity#amount}
      */
     public BigDecimal getAmount() {
-        return null;
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     /**
@@ -35,7 +53,9 @@ public class Quantity {
      * @return сумма чисел
      */
     public Quantity add(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal sum = this.amount.add(quantity.amount);
+        return new Quantity(sum, this.unitOfMeasurement);
     }
 
     /**
@@ -45,7 +65,9 @@ public class Quantity {
      * @return разность чисел
      */
     public Quantity subtract(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal diff = this.amount.subtract(quantity.amount);
+        return new Quantity(diff, this.unitOfMeasurement);
     }
 
     /**
@@ -55,7 +77,9 @@ public class Quantity {
      * @return произведение
      */
     public Quantity multiply(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal result = this.amount.multiply(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -65,7 +89,9 @@ public class Quantity {
      * @return частное
      */
     public Quantity divide(Quantity quantity) throws Exception {
-        return null;
+        validateUnitOfMeasurement(quantity);
+        BigDecimal result = this.amount.divide(quantity.amount);
+        return new Quantity(result, this.unitOfMeasurement);
     }
 
     /**
@@ -75,6 +101,41 @@ public class Quantity {
      * @return равные части числа
      */
     public Quantity[] divide(int n) throws Exception {
-        return null;
+        if (n == 0) {
+            throw new IllegalArgumentException("Невозможно разделить на 0 частей");
+        }
+
+        BigDecimal[] splitted = NumberSample.split(this.amount, n);
+        Quantity[] quantityResult = new Quantity[n];
+        for (int i = 0; i < n; i++) {
+            quantityResult[i] = new Quantity(splitted[i], this.unitOfMeasurement);
+        }
+        return quantityResult;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+            Quantity quantity = (Quantity) o;
+
+        return amount.equals(quantity.amount) && unitOfMeasurement.equals(quantity.unitOfMeasurement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, unitOfMeasurement);
+    }
+
+    @Override
+    public String toString() {
+        return amount + " " + unitOfMeasurement;
+    }
+
+    private void validateUnitOfMeasurement(Quantity q_right) {
+        if (!this.unitOfMeasurement.equals(q_right.unitOfMeasurement)) {
+            throw  new IllegalArgumentException("Единицы измерения не совпадают: "
+                    + this.unitOfMeasurement + " " + q_right.unitOfMeasurement);
+        }
     }
 }

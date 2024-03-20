@@ -1,11 +1,15 @@
 package ru.msu.vmk;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class NumberSample {
+
     public static BigDecimal[] split(BigDecimal amount, int n) {
-        // разделить amount на n частей
-        // если остается остаток, прибавить его к первому числу
-        return null;
+        var result = amount.divide(new BigDecimal(n));
+        BigDecimal[] resArray = new BigDecimal[n];
+        Arrays.fill(resArray, result);
+        return resArray;
     }
 }

@@ -53,7 +53,7 @@ public class Quantity {
      * @return сумма чисел
      */
     public Quantity add(Quantity quantity) throws Exception {
-        validateUnitOfMeasurement(quantity);
+        validateEqualUnitOfMeasurement(quantity);
         BigDecimal sum = this.amount.add(quantity.amount);
         return new Quantity(sum, this.unitOfMeasurement);
     }
@@ -65,7 +65,7 @@ public class Quantity {
      * @return разность чисел
      */
     public Quantity subtract(Quantity quantity) throws Exception {
-        validateUnitOfMeasurement(quantity);
+        validateEqualUnitOfMeasurement(quantity);
         BigDecimal diff = this.amount.subtract(quantity.amount);
         return new Quantity(diff, this.unitOfMeasurement);
     }
@@ -77,7 +77,7 @@ public class Quantity {
      * @return произведение
      */
     public Quantity multiply(Quantity quantity) throws Exception {
-        validateUnitOfMeasurement(quantity);
+        validateEqualUnitOfMeasurement(quantity);
         BigDecimal result = this.amount.multiply(quantity.amount);
         return new Quantity(result, this.unitOfMeasurement);
     }
@@ -89,7 +89,8 @@ public class Quantity {
      * @return частное
      */
     public Quantity divide(Quantity quantity) throws Exception {
-        validateUnitOfMeasurement(quantity);
+        // No check because quantity.amount cannot be null
+        validateEqualUnitOfMeasurement(quantity);
         BigDecimal result = this.amount.divide(quantity.amount);
         return new Quantity(result, this.unitOfMeasurement);
     }
@@ -116,10 +117,8 @@ public class Quantity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-            Quantity quantity = (Quantity) o;
-
-        return amount.equals(quantity.amount) && unitOfMeasurement.equals(quantity.unitOfMeasurement);
+        if (!(o instanceof Quantity quantity)) return false;
+        return Objects.equals(amount, quantity.amount) && Objects.equals(unitOfMeasurement, quantity.unitOfMeasurement);
     }
 
     @Override
@@ -129,13 +128,16 @@ public class Quantity {
 
     @Override
     public String toString() {
-        return amount + " " + unitOfMeasurement;
+        return "Quantity{" +
+                "amount=" + amount +
+                ", unitOfMeasurement='" + unitOfMeasurement + '\'' +
+                '}';
     }
 
-    private void validateUnitOfMeasurement(Quantity q_right) {
-        if (!this.unitOfMeasurement.equals(q_right.unitOfMeasurement)) {
+    private void validateEqualUnitOfMeasurement(Quantity qRight) {
+        if (!this.unitOfMeasurement.equals(qRight.unitOfMeasurement)) {
             throw  new IllegalArgumentException("Единицы измерения не совпадают: "
-                    + this.unitOfMeasurement + " " + q_right.unitOfMeasurement);
+                    + this.unitOfMeasurement + " " + qRight.unitOfMeasurement);
         }
     }
 }
